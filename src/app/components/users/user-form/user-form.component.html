@@ -1,0 +1,82 @@
+<div class="form-container">
+  <h2>{{ isEditMode ? 'Edit User' : 'Create User' }}</h2>
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input
+        type="text"
+        id="firstName"
+        formControlName="firstName"
+        [class.is-invalid]="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched"
+      >
+      <div class="error-message" *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched">
+        First name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input
+        type="text"
+        id="lastName"
+        formControlName="lastName"
+        [class.is-invalid]="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched"
+      >
+      <div class="error-message" *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched">
+        Last name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        formControlName="email"
+        [class.is-invalid]="userForm.get('email')?.invalid && userForm.get('email')?.touched"
+      >
+      <div class="error-message" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+        <span *ngIf="userForm.get('email')?.errors?.['required']">Email is required</span>
+        <span *ngIf="userForm.get('email')?.errors?.['email']">Invalid email format</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password {{ isEditMode ? '(Leave blank to keep current)' : '' }}</label>
+      <input
+        type="password"
+        id="password"
+        formControlName="password"
+        [class.is-invalid]="userForm.get('password')?.invalid && userForm.get('password')?.touched"
+      >
+      <div class="error-message" *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched">
+        Password is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Permissions</label>
+      <div class="permissions-list">
+        <div *ngFor="let type of permissionTypes" class="permission-item">
+          <input
+            type="checkbox"
+            [id]="type"
+            [value]="type"
+            [disabled]="!hasFullAccess()"
+            (change)="onPermissionChange(type, $event.target)"
+            [checked]="isPermissionSelected(type)"
+          >
+          <label [for]="type">{{ type }}</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="error-message" *ngIf="error">{{ error }}</div>
+
+    <div class="button-group">
+      <button type="submit" [disabled]="userForm.invalid">{{ isEditMode ? 'Update' : 'Create' }}</button>
+      <button type="button" (click)="router.navigate(['/users'])" class="cancel-button">Cancel</button>
+    </div>
+  </form>
+</div>
