@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
 import { LoginRequest, LoginResponse } from '../models/auth.model';
-
+import { jwtDecode } from 'jwt-decode';
 @Injectable({
   providedIn: 'root'
 })
@@ -35,5 +35,18 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!this.getToken();
+  }
+
+  getCurrentUserEmail(): string | null {
+    const token = this.getToken();
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token) as any;
+        return decodedToken.sub;  // 'sub' je email u JWT tokenu
+      } catch {
+        return null;
+      }
+    }
+    return null;
   }
 }

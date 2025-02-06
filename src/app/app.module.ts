@@ -14,6 +14,10 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { OrderListComponent } from './components/orders/order-list/order-list.component';
+import { OrderCreateComponent } from './components/orders/order-create/order-create.component';
+import { DishListComponent } from './components/orders/dish-list/dish-list.component';
+import { ErrorListComponent } from './components/errors/error-list/error-list.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +26,11 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     UserListComponent,
     UserFormComponent,
     UserEditComponent,
-    NavbarComponent
+    NavbarComponent,
+    OrderListComponent,
+    OrderCreateComponent,
+    DishListComponent,
+    ErrorListComponent
   ],
   imports: [
     BrowserModule,
