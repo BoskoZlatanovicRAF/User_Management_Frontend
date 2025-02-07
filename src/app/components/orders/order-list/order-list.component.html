@@ -1,6 +1,10 @@
 <div class="container mt-4">
-  <h2>Orders</h2>
-
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Orders</h2>
+    <button class="btn btn-primary" [routerLink]="['/orders/new']">
+      Create New Order
+    </button>
+  </div>
   <!-- Filter Form -->
   <form [formGroup]="filterForm" (ngSubmit)="onFilter()" class="mb-4">
     <div class="row g-3">
@@ -38,7 +42,6 @@
         <th>Created By</th>
         <th>Created At</th>
         <th>Scheduled For</th>
-        <th>Actions</th>
       </tr>
       </thead>
       <tbody>
@@ -57,8 +60,13 @@
           </ul>
         </td>
         <td>{{order.createdBy.email}}</td>
-        <td>{{order.createdAt | date:'short'}}</td>
-        <td>{{order.scheduledFor | date:'short'}}</td>
+        <td>{{order.createdAt | date:'dd.MM.YYYY | HH:mm'}}</td>
+        <td>
+          <span *ngIf="order.scheduledFor; else notScheduled">
+            {{order.scheduledFor | date:'dd.MM.YYYY | HH:mm'}}
+          </span>
+          <ng-template #notScheduled>N/A</ng-template>
+        </td>
         <td>
           <button *ngIf="order.status === 'ORDERED'"
                   class="btn btn-danger btn-sm"

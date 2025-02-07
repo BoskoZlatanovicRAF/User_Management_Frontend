@@ -2,8 +2,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Order } from '../models/order.model';
+import {Dish, Order} from '../models/order.model';
 import { Client } from '@stomp/stompjs';
+import * as SockJS from "sockjs-client";
 
 @Injectable({
   providedIn: 'root'
@@ -24,14 +25,25 @@ export class OrderService {
 
   private initializeWebSocket() {
     this.stompClient = new Client({
-      brokerURL: this.wsUrl,
+      webSocketFactory: () => new SockJS(this.wsUrl),
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000
+      heartbeatOutgoing: 4000,
+      debug: (str) => {
+        console.log('STOMP:', str);
+      }
     });
 
     this.stompClient.onConnect = () => {
       console.log('Connected to WebSocket');
+    };
+
+    this.stompClient.onWebSocketError = (error) => {
+      console.error('WebSocket Error:', error);
+    };
+
+    this.stompClient.onStompError = (frame) => {
+      console.error('STOMP Error:', frame);
     };
 
     this.stompClient.activate();
@@ -70,9 +82,12 @@ export class OrderService {
     return this.http.get<Order>(`${this.apiUrl}/${id}/track`, { headers: this.getHeaders() });
   }
 
-  scheduleOrder(order: Order, scheduledTime: Date): Observable<Order> {
+  scheduleOrder(items: Dish[], scheduledTime: Date): Observable<Order> {
+    const request = {
+      items: items
+    };
     const params = new HttpParams().set('scheduledTime', scheduledTime.toISOString());
-    return this.http.post<Order>(`${this.apiUrl}/schedule`, order, {
+    return this.http.post<Order>(`${this.apiUrl}/schedule`, request, {
       params,
       headers: this.getHeaders()
     });

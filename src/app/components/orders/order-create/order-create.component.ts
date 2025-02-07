@@ -81,8 +81,8 @@ export class OrderCreateComponent implements OnInit {
 
     if (this.orderForm.get('isScheduled')?.value && this.orderForm.get('scheduledFor')?.value) {
       const scheduledDate = this.orderForm.get('scheduledFor')?.value;
-      if (scheduledDate) {  // proveravamo da nije null
-        this.orderService.scheduleOrder(order as Order, new Date(scheduledDate))
+      if (scheduledDate) {
+        this.orderService.scheduleOrder(this.selectedDishes.map(item => item.dish), new Date(scheduledDate))
           .subscribe({
             next: () => {
               this.router.navigate(['/orders']);
