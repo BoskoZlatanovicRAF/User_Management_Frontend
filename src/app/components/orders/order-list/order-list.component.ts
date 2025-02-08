@@ -43,17 +43,31 @@ export class OrderListComponent implements OnInit, OnDestroy {
   }
 
   loadOrders() {
-    const filters = this.filterForm.value;
+    const filters: any = {};
+    const formValues = this.filterForm.value;
+
+    if (formValues.status) {
+      filters.status = formValues.status;
+    }
+
+    if (formValues.dateFrom && formValues.dateTo) {
+      // Konvertujemo string datume u ISO format
+      filters.dateFrom = new Date(formValues.dateFrom + 'T00:00:00').toISOString();
+      filters.dateTo = new Date(formValues.dateTo + 'T23:59:59').toISOString();
+    }
+
+    if (this.isAdmin && formValues.userId) {
+      filters.userId = formValues.userId;
+    }
+
     this.orderService.getOrders(this.currentPage, this.pageSize, filters).subscribe(response => {
       this.orders = response.content;
       this.totalElements = response.totalElements;
       this.totalPages = response.totalPages;
 
-      // Pretplati se na WebSocket updates za svaku porudžbinu
       this.orders.forEach(order => this.subscribeToOrderUpdates(order.id!));
     });
   }
-
   private subscribeToOrderUpdates(orderId: number) {
     if (this.subscriptions[orderId]) {
       this.subscriptions[orderId].unsubscribe();
