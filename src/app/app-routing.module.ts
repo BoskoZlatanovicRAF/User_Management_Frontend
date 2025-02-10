@@ -8,23 +8,27 @@ import {OrderListComponent} from "./components/orders/order-list/order-list.comp
 import {OrderCreateComponent} from "./components/orders/order-create/order-create.component";
 import {DishListComponent} from "./components/orders/dish-list/dish-list.component";
 import {ErrorListComponent} from "./components/errors/error-list/error-list.component";
+import {PermissionGuard} from "./guards/permission.guard";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
     path: 'users',
     component: UserListComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, PermissionGuard],
+    data: { requiredPermission: 'CAN_READ_USERS' }
   },
   {
     path: 'users/new',
     component: UserFormComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, PermissionGuard],
+    data: { requiredPermission: 'CAN_CREATE_USERS' }
   },
   {
     path: 'users/edit/:id',
     component: UserFormComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, PermissionGuard],
+    data: { requiredPermission: 'CAN_UPDATE_USERS' }
   },
   {
     path: 'orders',
