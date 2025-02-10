@@ -30,7 +30,7 @@ export class UserFormComponent implements OnInit {
     const token = localStorage.getItem('token');
     if (token) {
       const tokenData = JSON.parse(atob(token.split('.')[1]));
-      this.userPermissions = tokenData.permissions || [];  
+      this.userPermissions = tokenData.permissions || [];
       this.currentUserEmail = tokenData.sub;  // 'sub' contains the email
     }
 
@@ -143,5 +143,4 @@ export class UserFormComponent implements OnInit {
     return permissions.includes(type);
   }
 
-  protected readonly HTMLInputElement = HTMLInputElement;
 }

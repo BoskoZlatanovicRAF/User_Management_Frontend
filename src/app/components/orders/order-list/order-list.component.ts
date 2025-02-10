@@ -1,4 +1,3 @@
-// components/orders/order-list/order-list.component.ts
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {Order, OrderStatus} from "../../../models/order.model";
 import {FormControl, FormGroup} from "@angular/forms";

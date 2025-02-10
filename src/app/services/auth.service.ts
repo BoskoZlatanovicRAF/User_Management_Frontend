@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
-import { LoginRequest, LoginResponse } from '../models/auth.model';
-import { jwtDecode } from 'jwt-decode';
+import {LoginRequest, LoginResponse} from '../models/auth.model';
+import {jwtDecode} from 'jwt-decode';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,9 +29,8 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    const token = localStorage.getItem('token');
     // console.log('Getting token from storage:', token);
-    return token;
+    return localStorage.getItem('token');
   }
 
   isLoggedIn(): boolean {

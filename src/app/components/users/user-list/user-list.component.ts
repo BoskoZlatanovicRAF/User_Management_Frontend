@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/user.model';
-import { PermissionType } from '../../../models/permission.model';
 
 @Component({
   selector: 'app-user-list',
@@ -68,5 +67,4 @@ export class UserListComponent implements OnInit {
     }
   }
 
-  protected readonly PermissionType = PermissionType;
 }

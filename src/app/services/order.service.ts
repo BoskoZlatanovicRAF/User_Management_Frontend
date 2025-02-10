@@ -1,4 +1,3 @@
-// services/order.service.ts
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -78,9 +77,9 @@ export class OrderService {
     return this.http.put<void>(`${this.apiUrl}/${id}/cancel`, {}, { headers: this.getHeaders() });
   }
 
-  trackOrder(id: number): Observable<Order> {
-    return this.http.get<Order>(`${this.apiUrl}/${id}/track`, { headers: this.getHeaders() });
-  }
+  // trackOrder(id: number): Observable<Order> {
+  //   return this.http.get<Order>(`${this.apiUrl}/${id}/track`, { headers: this.getHeaders() });
+  // }
 
   scheduleOrder(items: Dish[], scheduledTime: Date): Observable<Order> {
     const request = {

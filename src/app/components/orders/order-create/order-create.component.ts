@@ -5,7 +5,6 @@ import {DishService} from "../../../services/dish.service";
 import {OrderService} from "../../../services/order.service";
 import {Router} from "@angular/router";
 
-// components/orders/order-create/order-create.component.ts
 @Component({
   selector: 'app-order-create',
   templateUrl: './order-create.component.html'
@@ -13,7 +12,6 @@ import {Router} from "@angular/router";
 export class OrderCreateComponent implements OnInit {
   dishes: Dish[] = [];
   selectedDishes: { dish: Dish, quantity: number }[] = [];
-  scheduleEnabled = false;
   scheduledTime: string = '';
 
   orderForm = new FormGroup({
@@ -105,5 +103,4 @@ export class OrderCreateComponent implements OnInit {
     }
   }
 
-  protected readonly HTMLInputElement = HTMLInputElement;
 }
